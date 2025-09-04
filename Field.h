@@ -149,7 +149,9 @@ std::ostream &operator<<(std::ostream &os, const Field_<T> &f)
         {
             for (int i = 0; i < f.ni; i++)
                 os << f.data[i][j][k] << " ";
+            // os << "\n";
         }
+        // os << "\n";
     }
     return os;
 }

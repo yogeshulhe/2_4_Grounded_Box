@@ -29,21 +29,23 @@ void Output::fields(World &world)
     // output data stored on nodes (point data)
     out << "<PointData>\n";
 
-    // node volumes, scalar
-    out << "<DataArray Name=\"NodeVol\" NumberOfComponents=\"1\" format=\"ascii\" type=\"Float64\">\n";
-    out << world.node_vol; // use the overloaded << operator
-    out << "</DataArray>\n";
+    // // node volumes, scalar
+    // out << "<DataArray Name=\"NodeVol\" NumberOfComponents=\"1\" format=\"ascii\" type=\"Float64\">\n";
+    // out << world.node_vol; // use the overloaded << operator
+    // out << "</DataArray>\n";
 
     // potential scalar
-    /* ...*/
+    out << "<DataArray Name=\"phi\" NumberOfComponents=\"1\" format=\"ascii\" type=\"Float64\">\n";
+    out << world.phi; // use the overloaded << operator
+    out << "</DataArray>\n";
 
     // charge density, scalar
     /* ... */ // output world.rho
 
-    // electric field, 3 component vector
-    out << "<DataArray Name=\"ef\" NumberOfComponents=\"3\" format=\"ascii\" type=\"Float64\">\n";
-    out << world.ef;
-    out << "</DataArray>\n";
+    // // electric field, 3 component vector
+    // out << "<DataArray Name=\"ef\" NumberOfComponents=\"3\" format=\"ascii\" type=\"Float64\">\n";
+    // out << world.ef;
+    // out << "</DataArray>\n";
 
     //  close the tags
     out << "</PointData>\n";
