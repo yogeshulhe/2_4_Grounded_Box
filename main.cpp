@@ -27,6 +27,7 @@ int main()
     std::cout << "All ok after just after PotentialSolver" << std::endl;
 
     solver.solve();
+    solver.computeEF();
 
     // save results
     Output::fields(world);

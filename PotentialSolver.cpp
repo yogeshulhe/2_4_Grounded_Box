@@ -58,3 +58,46 @@ bool PotentialSolver::solve()
         std::cerr << "GS failed to converge, L2=" << L2 << std::endl;
     return converged;
 }
+
+// compute electric field = -gradient(phi)
+void PotentialSolver::computeEF()
+{
+    // reference to phi to avoid writing world.phi
+    Field &phi = world.phi;
+
+    double3 dh = world.getDh(); // get cell spacing
+    double dx = dh[0];
+    double dy = dh[1];
+    double dz = dh[2];
+
+    for (int i = 0; i < world.ni; i++)
+        for (int j = 0; j < world.nj; j++)
+            for (int k = 0; k < world.nk; k++)
+            {
+                double3 &ef = world.ef[i][j][k]; // ref to (i,j,k) ef vec3
+
+                // x component, efx
+                if (i == 0) // forward difference
+                    ef[0] = -(-3 * phi[i][j][k] + 4 * phi[i + 1][j][k] - phi[i + 2][j][k]) / (2 * dx);
+                else if (i == world.ni - 1) // backward difference
+                    ef[0] = -(phi[i - 2][j][k] - 4 * phi[i - 1][j][k] + 3 * phi[i][j][k]) / (2 * dx);
+                else
+                    ef[0] = -(phi[i + 1][j][k] - phi[i - 1][j][k]) / (2 * dx);
+
+                // y component, efy
+                if (j == 0) // forward difference
+                    ef[1] = -(-3 * phi[i][j][k] + 4 * phi[i][j + 1][k] - phi[i][j + 2][k]) / (2 * dy);
+                else if (j == world.nj - 1) // backward difference
+                    ef[1] = -(phi[i][j - 2][k] - 4 * phi[i][j - 1][k] + 3 * phi[i][j][k]) / (2 * dy);
+                else
+                    ef[1] = -(phi[i][j + 1][k] - phi[i][j - 1][k]) / (2 * dy);
+
+                // z component, efz
+                if (k == 0) // forward difference
+                    ef[2] = -(-3 * phi[i][j][k] + 4 * phi[i][j][k + 1] - phi[i][j][k + 2]) / (2 * dz);
+                else if (i == world.nk - 1) // backward difference
+                    ef[2] = -(phi[i][j][k - 2] - 4 * phi[i][j][k - 1] + 3 * phi[i][j][k]) / (2 * dz);
+                else
+                    ef[2] = -(phi[i][j][k + 1] - phi[i][j][k - 1]) / (2 * dz);
+            }
+}

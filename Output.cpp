@@ -42,10 +42,10 @@ void Output::fields(World &world)
     // charge density, scalar
     /* ... */ // output world.rho
 
-    // // electric field, 3 component vector
-    // out << "<DataArray Name=\"ef\" NumberOfComponents=\"3\" format=\"ascii\" type=\"Float64\">\n";
-    // out << world.ef;
-    // out << "</DataArray>\n";
+    // electric field, 3 component vector
+    out << "<DataArray Name=\"ef\" NumberOfComponents=\"3\" format=\"ascii\" type=\"Float64\">\n";
+    out << world.ef;
+    out << "</DataArray>\n";
 
     //  close the tags
     out << "</PointData>\n";
