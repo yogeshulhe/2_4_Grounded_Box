@@ -84,5 +84,6 @@
     "compare": "cpp",
     "concepts": "cpp",
     "algorithm": "cpp"
-  }
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }

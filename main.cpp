@@ -2,6 +2,7 @@
 #include "Field.h"
 #include "Output.h"
 #include "PotentialSolver.h"
+#include "Species.h"
 #include <iostream>
 
 int main()
@@ -10,26 +11,21 @@ int main()
     std::cout << "All ok after main world" << std::endl;
     world.setExtends({-0.1, -0.1, 0}, {0.1, 0.1, 0.2});
 
-    // set phi[i=0] = 1 for testing
-    for (int j = 0; j < world.nj; j++)
-        for (int k = 0; k < world.nk; k++)
-            world.phi[0][j][k] = 1; // phi[i=0] = 1
+    // set up particle species
+    std::vector<Species> species;
+    // species.reserve(2); // pre-allocate space for two species
+    species.push_back(Species("O+", 16 * Const::AMU, Const::QE, world));
+    species.push_back(Species("e-", Const::ME, -1 * Const::QE, world));
 
-    // set phi[k=0] = 2 for testing
-    for (int i = 0; i < world.ni; i++)
-        for (int j = 0; j < world.nj; j++)
-            world.phi[i][j][0] = 2; // phi[k=0] = 2
+    int np_ions = 80000;                                                      // number of simulation ions
+    int np_eles = 10000;                                                      // number of simulation electrons
+    species[0].loadParticlesBox(world.getX0(), world.getXm(), 1e11, np_ions); // ions
+    species[1].loadParticlesBox(world.getX0(), world.getXc(), 1e11, np_eles); // electrons
 
-    std::cout << "All ok after just before PotentialSolver" << std::endl;
-    // Initialize and solve potential
-    PotentialSolver solver(world, 5000, 1e-4);
+    std::cout
+        << "all ok after species" << std::endl;
 
-    std::cout << "All ok after just after PotentialSolver" << std::endl;
-
-    solver.solve();
-    solver.computeEF();
-
-    // save results
-    Output::fields(world);
-    return 0;
+    // use range-style loop to print particle counts
+    for (Species &sp : species)
+        std::cout << sp.name << " has " << sp.getNp() << " particle" << std::endl;
 }

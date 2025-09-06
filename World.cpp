@@ -1,4 +1,5 @@
 #include "World.h"
+#include "Species.h"
 
 // constructor
 World::World(int ni, int nj, int nk) : ni{ni}, nj{nj}, nk{nk}, nn{ni, nj, nk}, phi(ni, nj, nk), rho(ni, nj, nk), ef(ni, nj, nk), node_vol(ni, nj, nk) { std::cout << "All ok in world constructor" << std::endl; }
@@ -16,3 +17,5 @@ void World::setExtends(const double3 &_x0, const double3 &_xm)
     for (int i = 0; i < 3; i++)
         xc[i] = 0.5 * (x0[i] + xm[i]);
 }
+
+Rnd rnd; // an instance of a Rnd object

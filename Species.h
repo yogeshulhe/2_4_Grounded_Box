@@ -6,11 +6,11 @@
 
 struct Particle
 {
-    double pos[3]; // position
-    double vel[3]; // velocity
-    double mpw;    // macroparticle weight
+    double3 pos; // position
+    double3 vel; // velocity
+    double mpw;  // macroparticle weight
 
-    Particle(double x[3], double v[3], double mpw) : pos{x[0], x[1], x[2]}, vel{v[0], v[1], v[2]}, mpw{mpw} {}
+    Particle(double3 x, double3 v, double mpw) : pos{x[0], x[1], x[2]}, vel{v[0], v[1], v[2]}, mpw{mpw} {}
 };
 
 class Species

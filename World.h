@@ -2,6 +2,7 @@
 #define World_h
 
 #include "Field.h"
+#include <random>
 
 class World
 {
@@ -22,6 +23,8 @@ public:
 
     double3 getX0() const { return x0; }
     double3 getDh() const { return dh; }
+    double3 getXc() const { return xc; }
+    double3 getXm() const { return xm; }
 
 protected:
     double3 x0; // mesh origin
@@ -40,5 +43,21 @@ namespace Const
     const double PI = 3.141592653;      // Pi
     const double EvToK = QE / K;        // 1eV in K 11604
 }
+
+// object for sampling random numbers
+class Rnd
+{
+public:
+    // constructor: set initial random seed and distribution limits
+    Rnd() : mt_gen{std::random_device()()}, rnd_dist{0, 1.0} {}
+
+    double operator()() { return rnd_dist(mt_gen); }
+
+protected:
+    std::mt19937 mt_gen;                             // random number generation        // #iclude<random>
+    std::uniform_real_distribution<double> rnd_dist; // distribution
+};
+
+extern Rnd rnd;
 
 #endif
